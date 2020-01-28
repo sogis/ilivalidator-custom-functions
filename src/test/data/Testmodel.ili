@@ -1,0 +1,42 @@
+INTERLIS 2.3;
+CONTRACTED MODEL Testmodel
+  AT "mailto:stefan.ziegler@bd.so.ch" VERSION "2019-01-27" =
+  IMPORTS SO_FunctionsExt;
+      
+    TOPIC Topic =
+        DOMAIN
+            Lkoord = COORD 0.000 .. 850000.000 [INTERLIS.m],
+                           0.000 .. 310000.000 [INTERLIS.m],
+                     ROTATION 2 -> 1;
+
+        CLASS ClassA =
+            attr2 : TEXT;
+            attr3 : TEXT;
+            attr4 : URI;
+            !!@ name = checkHttpRessource1
+            !!@ ilivalid.msg = "Dokument '{attr2}{attr3}' wurde nicht gefunden."
+            MANDATORY CONSTRAINT SO_FunctionsExt.isHttpResource(attr3, attr2);
+            !!@ name = checkHttpRessource2
+            !!@ ilivalid.msg = "Dokument '{attr2}{attr4}' wurde nicht gefunden."            
+            MANDATORY CONSTRAINT SO_FunctionsExt.isHttpResource(attr4, attr2);
+        END ClassA;
+        
+        CLASS ClassB =
+            attr1 : TEXT;
+            dateattr2 : TEXT*10;
+        END ClassB;
+        
+        CLASS ClassC = 
+            flaeche: SURFACE WITH (STRAIGHTS) VERTEX Lkoord WITHOUT OVERLAPS > 0.001;
+            !!@ name = areaEqualityCheck
+            !!@ ilivalid.msg = "Fläche ist falsch."                        
+            MANDATORY CONSTRAINT SO_FunctionsExt.area(flaeche) == 50;            
+            !!@ name = areaMustBeLargerThanCheck
+            !!@ ilivalid.msg = "Fläche ist zu klein."                        
+            MANDATORY CONSTRAINT SO_FunctionsExt.area(flaeche) > 40;            
+            
+        END ClassC;
+                      
+    END Topic;
+    
+END Testmodel.

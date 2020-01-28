@@ -1,0 +1,23 @@
+INTERLIS 2.3;
+
+MODEL OEREB (de)
+   AT "mailto:stefan.ziegler@bd.so.ch" VERSION "2019-05-26" =
+   IMPORTS SO_FunctionsExt;
+
+  TOPIC Vorschriften =
+    CLASS Dokument =
+      TextImWeb : TEXT*1024;
+      Titel : TEXT*1024;
+    END Dokument;
+    
+    ASSOCIATION HinweisWeitereDokumente =
+      Ursprung -- {0..*} Dokument;
+      Hinweis -- {0..*} Dokument;
+      !!@ name = DocumentsCycleCheck
+      !!@ ilivalid.msg = "Es sind falsche Verknüpfungen vorhanden {Ursprung} <-> {Hinweis}."      
+      SET CONSTRAINT SO_FunctionsExt.isValidDocumentsCycle(ALL);
+    END HinweisWeitereDokumente;  
+    
+  END Vorschriften;
+
+END OEREB.
