@@ -1,4 +1,4 @@
-[![Build Status](https://github.com/sogis/ilivalidator-custom-functions/workflows/Java%20CI/badge.svg)](https://github.com/sogis/ilivalidator-custom-functions/workflows/Java%20CI/badge.svg)
+![CI/CD](https://github.com/sogis/ilivalidator-custom-functions/workflows/CI/CD/badge.svg)
 
 # ilivalidator-custom-functions
 Custom functions for ilivalidator
