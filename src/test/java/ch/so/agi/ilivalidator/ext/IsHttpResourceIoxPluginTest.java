@@ -44,7 +44,19 @@ public class IsHttpResourceIoxPluginTest {
             ili2cConfig.addFileEntry(fileEntry);
         }
         {
-            FileEntry fileEntry = new FileEntry("src/test/data/Testmodel.ili", FileEntryKind.ILIMODELFILE);
+            FileEntry fileEntry = new FileEntry("src/test/data/CHBase_Part2_LOCALISATION_20110830.ili", FileEntryKind.ILIMODELFILE);
+            ili2cConfig.addFileEntry(fileEntry);
+        } 
+        {
+            FileEntry fileEntry = new FileEntry("src/test/data/CHBase_Part3_CATALOGUEOBJECTS_20110830.ili", FileEntryKind.ILIMODELFILE);
+            ili2cConfig.addFileEntry(fileEntry);
+        }        
+        {
+            FileEntry fileEntry = new FileEntry("src/test/data/OeREBKRM_V1_1.ili", FileEntryKind.ILIMODELFILE);
+            ili2cConfig.addFileEntry(fileEntry);
+        }        
+        {
+            FileEntry fileEntry = new FileEntry("src/test/data/HTTP_Testmodel.ili", FileEntryKind.ILIMODELFILE);
             ili2cConfig.addFileEntry(fileEntry);
         }
         td = ch.interlis.ili2c.Ili2c.runCompiler(ili2cConfig);
