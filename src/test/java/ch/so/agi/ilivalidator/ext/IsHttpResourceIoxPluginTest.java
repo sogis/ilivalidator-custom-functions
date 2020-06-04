@@ -14,6 +14,7 @@ import ch.interlis.ili2c.config.Configuration;
 import ch.interlis.ili2c.config.FileEntry;
 import ch.interlis.ili2c.config.FileEntryKind;
 import ch.interlis.ili2c.metamodel.TransferDescription;
+import ch.interlis.iom.IomObject;
 import ch.interlis.iom_j.Iom_jObject;
 import ch.interlis.iox_j.EndBasketEvent;
 import ch.interlis.iox_j.EndTransferEvent;
@@ -33,6 +34,7 @@ public class IsHttpResourceIoxPluginTest {
     private final static String ILI_TOPIC="Testmodel.Topic";
     // CLASS
     private final static String ILI_CLASSA=ILI_TOPIC+".ClassA";
+    private final static String ILI_CLASSD=ILI_TOPIC+".ClassD";
     // START BASKET EVENT
     private final static String BID1="b1";
     
@@ -61,6 +63,15 @@ public class IsHttpResourceIoxPluginTest {
         }
         td = ch.interlis.ili2c.Ili2c.runCompiler(ili2cConfig);
         assertNotNull(td);
+    }
+    
+    @Test void isHttpResourceMultilingual_Ok() {
+        Iom_jObject iomObjA = new Iom_jObject(ILI_CLASSD, OBJ_OID1);
+        IomObject textImWeb = iomObjA.addattrobj("TextImWeb", "OeREBKRM_V1_1.MultilingualUri");
+//        IomObject surfaceValue = multisurfaceValue.addattrobj("surface", "SURFACE");
+//        IomObject outerBoundary = surfaceValue.addattrobj("boundary", "BOUNDARY");
+
+        System.out.println(textImWeb.toString());
     }
 
     @Test

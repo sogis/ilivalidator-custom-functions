@@ -38,7 +38,7 @@ CONTRACTED MODEL Testmodel
         
         CLASS ClassD =
             attr1 : TEXT;
-            !!TextImWeb : OeREBKRM_V1_1.MultilingualUri;
+            TextImWeb : OeREBKRM_V1_1.MultilingualUri;
         END ClassD;
                       
     END Topic;
