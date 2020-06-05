@@ -35,6 +35,7 @@ public class IsHttpResourceIoxPluginTest {
     // CLASS
     private final static String ILI_CLASSA=ILI_TOPIC+".ClassA";
     private final static String ILI_CLASSD=ILI_TOPIC+".ClassD";
+    
     // START BASKET EVENT
     private final static String BID1="b1";
     
@@ -46,32 +47,11 @@ public class IsHttpResourceIoxPluginTest {
             ili2cConfig.addFileEntry(fileEntry);
         }
         {
-            FileEntry fileEntry = new FileEntry("src/test/data/CHBase_Part2_LOCALISATION_20110830.ili", FileEntryKind.ILIMODELFILE);
-            ili2cConfig.addFileEntry(fileEntry);
-        } 
-        {
-            FileEntry fileEntry = new FileEntry("src/test/data/CHBase_Part3_CATALOGUEOBJECTS_20110830.ili", FileEntryKind.ILIMODELFILE);
-            ili2cConfig.addFileEntry(fileEntry);
-        }        
-        {
-            FileEntry fileEntry = new FileEntry("src/test/data/OeREBKRM_V1_1.ili", FileEntryKind.ILIMODELFILE);
-            ili2cConfig.addFileEntry(fileEntry);
-        }        
-        {
             FileEntry fileEntry = new FileEntry("src/test/data/HTTP_Testmodel.ili", FileEntryKind.ILIMODELFILE);
             ili2cConfig.addFileEntry(fileEntry);
         }
         td = ch.interlis.ili2c.Ili2c.runCompiler(ili2cConfig);
         assertNotNull(td);
-    }
-    
-    @Test void isHttpResourceMultilingual_Ok() {
-        Iom_jObject iomObjA = new Iom_jObject(ILI_CLASSD, OBJ_OID1);
-        IomObject textImWeb = iomObjA.addattrobj("TextImWeb", "OeREBKRM_V1_1.MultilingualUri");
-//        IomObject surfaceValue = multisurfaceValue.addattrobj("surface", "SURFACE");
-//        IomObject outerBoundary = surfaceValue.addattrobj("boundary", "BOUNDARY");
-
-        System.out.println(textImWeb.toString());
     }
 
     @Test

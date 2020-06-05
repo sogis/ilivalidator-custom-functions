@@ -1,0 +1,22 @@
+INTERLIS 2.3;
+CONTRACTED MODEL Testmodel
+  AT "mailto:stefan.ziegler@bd.so.ch" VERSION "2019-01-27" =
+  IMPORTS SO_FunctionsExt,OeREBKRM_V1_1;
+      
+    TOPIC Topic =
+        DOMAIN
+            Lkoord = COORD 0.000 .. 850000.000 [INTERLIS.m],
+                           0.000 .. 310000.000 [INTERLIS.m],
+                     ROTATION 2 -> 1;
+        
+        CLASS ClassD =
+            attr1 : TEXT;
+            TextImWeb : OeREBKRM_V1_1.MultilingualUri;
+            !!@ name = checkHttpRessource3
+            !!@ ilivalid.msg = "Dokument im Attribut 'TextImWeb' wurde nicht gefunden."            
+            MANDATORY CONSTRAINT SO_FunctionsExt.isHttpResourceFromOerebMultilingualUri(TextImWeb);            
+        END ClassD;
+                      
+    END Topic;
+    
+END Testmodel.

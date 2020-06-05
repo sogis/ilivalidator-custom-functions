@@ -28,9 +28,6 @@ public class IsHttpResourceIoxPlugin implements InterlisFunction {
         String urlValue = actualArguments[0].getValue();
         String prefixValue = actualArguments[1].getValue();
         
-        System.out.println(urlValue);
-        System.err.println(urlValue);
-        
         try {
             URL siteURL = new URL(prefixValue + urlValue);
             HttpURLConnection connection = (HttpURLConnection) siteURL.openConnection();

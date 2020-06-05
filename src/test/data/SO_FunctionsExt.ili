@@ -16,6 +16,15 @@ CONTRACTED MODEL SO_FunctionsExt
     !!@ fn.since = "2019-01-27";
     FUNCTION isHttpResource (url: TEXT; prefix: TEXT): BOOLEAN;
     
+    !!@ fn.description = "Prüft mittels Status-Code, ob eine HTTP-Ressource vorhanden ist.
+    !!@ Falls der Status-Code grösser gleich 200 und kleiner gleich 399 sein,
+    !!@ ist der Rückgabewert der Funktion true.";
+    !!@ fn.param = "Object Attribut mit der zu prüfenden OEREB-MultilingualUrl.";
+    !!@ fn.return = "True, falls die Ressource existiert. False, falls die Resource
+    !!@ nicht existiert.";
+    !!@ fn.since = "2020-06-05";
+    FUNCTION isHttpResourceFromOerebMultilingualUri (Object: ANYSTRUCTURE): BOOLEAN;
+    
     /**
     * Geometrie-Funktionen
     */

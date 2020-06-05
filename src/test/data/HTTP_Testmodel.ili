@@ -1,7 +1,7 @@
 INTERLIS 2.3;
 CONTRACTED MODEL Testmodel
   AT "mailto:stefan.ziegler@bd.so.ch" VERSION "2019-01-27" =
-  IMPORTS SO_FunctionsExt,OeREBKRM_V1_1;
+  IMPORTS SO_FunctionsExt;
       
     TOPIC Topic =
         DOMAIN
@@ -20,26 +20,6 @@ CONTRACTED MODEL Testmodel
             !!@ ilivalid.msg = "Dokument '{attr2}{attr4}' wurde nicht gefunden."            
             MANDATORY CONSTRAINT SO_FunctionsExt.isHttpResource(attr4, attr2);
         END ClassA;
-        
-        CLASS ClassB =
-            attr1 : TEXT;
-            dateattr2 : TEXT*10;
-        END ClassB;
-        
-        CLASS ClassC = 
-            flaeche: SURFACE WITH (STRAIGHTS) VERTEX Lkoord WITHOUT OVERLAPS > 0.001;
-            !!@ name = areaEqualityCheck
-            !!@ ilivalid.msg = "Fläche ist falsch."                        
-            MANDATORY CONSTRAINT SO_FunctionsExt.area(flaeche) == 50;            
-            !!@ name = areaMustBeLargerThanCheck
-            !!@ ilivalid.msg = "Fläche ist zu klein."                        
-            MANDATORY CONSTRAINT SO_FunctionsExt.area(flaeche) > 40;            
-        END ClassC;
-        
-        CLASS ClassD =
-            attr1 : TEXT;
-            TextImWeb : OeREBKRM_V1_1.MultilingualUri;
-        END ClassD;
                       
     END Topic;
     
