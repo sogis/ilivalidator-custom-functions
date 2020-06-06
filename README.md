@@ -24,6 +24,12 @@ Nachfolgender Aufruf prüft, ob die Links auf Dokumente in der Transferdatei tat
 java -jar ilivalidator.jar --plugins plugins/ --config oereb.toml ch.so.sk.gesetze.xtf
 ```
 
+### GRETL-Jobs
+Die Jar-Datei mit den Java-Klassen ist ins GRETL-Runtime-Image gebrannt und muss dementsprechend neu gebuildet werden, falls sich die etwas ändert. Der Pluginsordner ist nicht änderbar: `/home/gradle/plugins/`. Siehe [Dockerfile](https://github.com/sogis/gretl/blob/master/runtimeImage/gretl/Dockerfile).
+
+
+
+
 Im Ordner `plugins` ist die Jar-Datei mit den Java-Klassen. Die Datei [`oereb.toml`](./src/test/data/oereb.toml) verkabelt die notwendigen Modelle miteinander.
 
 ## Developing
