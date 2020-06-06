@@ -17,9 +17,18 @@ repositories {
     maven { url "http://jars.interlis.ch" }
 }
 
+configurations.all {
+    resolutionStrategy { 
+        force 'ch.interlis:iox-ili:1.20.15'
+        force 'ch.interlis:ili2c-tool:5.0.2'
+        force 'ch.interlis:ili2c-core:5.0.2'
+    }
+}
+
+
 dependencies {
-    api 'ch.interlis:iox-ili:1.20.15-SNAPSHOT'
-    api 'ch.interlis:ili2c-tool:4.7.10'
+    api 'ch.interlis:iox-ili:1.20.15'
+    api 'ch.interlis:ili2c-tool:5.0.2'
     api 'ch.interlis:ili2db:4.3.2'
     api 'org.jgrapht:jgrapht-core:1.3.1'
     //api 'org.jgrapht:jgrapht-ext:1.3.1'
