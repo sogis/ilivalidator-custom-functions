@@ -25,7 +25,6 @@ configurations.all {
     }
 }
 
-
 dependencies {
     api 'ch.interlis:iox-ili:1.20.15'
     api 'ch.interlis:ili2c-tool:5.0.2'
