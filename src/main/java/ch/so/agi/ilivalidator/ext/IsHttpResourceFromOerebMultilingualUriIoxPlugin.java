@@ -73,6 +73,8 @@ public class IsHttpResourceFromOerebMultilingualUriIoxPlugin implements Interlis
             } catch (IOException e) {
                 // When there is no server for a feedback, we end
                 // up here.
+                logger.addEvent(logger.logErrorMsg("document not found: " + mainObj.getobjectoid(), mainObj.getobjectoid()));                    
+                logger.addEvent(logger.logInfoMsg("document --- info ---- not found: " + mainObj.getobjectoid(), mainObj.getobjectoid()));                                    
                 return new Value(false);
             }
         }
