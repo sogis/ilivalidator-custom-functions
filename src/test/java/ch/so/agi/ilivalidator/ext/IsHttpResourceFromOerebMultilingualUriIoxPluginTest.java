@@ -150,6 +150,4 @@ public class IsHttpResourceFromOerebMultilingualUriIoxPluginTest {
         
         assertTrue(logger.getErrs().size()==0);
     }
-
-
 }
