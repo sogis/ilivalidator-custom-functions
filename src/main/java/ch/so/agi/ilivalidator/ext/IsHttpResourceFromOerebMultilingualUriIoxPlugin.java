@@ -58,7 +58,8 @@ public class IsHttpResourceFromOerebMultilingualUriIoxPlugin implements Interlis
 
         // TODO: So stimmt das noch nicht, da die Schleife gar nicht durchlaufen wird,
         // sondern beim ersten Objekt gleich returned wird.
-        for (int i=0; i<multilingualUriStruct.getattrvaluecount("LocalisedText"); i++) {            
+        for (int i=0; i<multilingualUriStruct.getattrvaluecount("LocalisedText"); i++) { 
+            System.out.println("foo" + i);
             IomObject localisedUri = multilingualUriStruct.getattrobj("LocalisedText", i);
             try {
                 
@@ -66,8 +67,6 @@ public class IsHttpResourceFromOerebMultilingualUriIoxPlugin implements Interlis
 
                 // TODO: Nicht wirklich sicher, ob das ganz korrekt ist.
                 String decodedUrl = java.net.URLDecoder.decode(encodedUrl, "UTF-8").replace("&amp;", "&"); 
-                System.out.println("decodedUrl: " + decodedUrl);
-                System.err.println("decodedUrl: " + decodedUrl);
                 
                 URL siteURL = new URL(decodedUrl);
                 HttpURLConnection connection = (HttpURLConnection) siteURL.openConnection();
