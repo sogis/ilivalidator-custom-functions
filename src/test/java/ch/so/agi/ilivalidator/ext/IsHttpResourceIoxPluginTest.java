@@ -125,7 +125,7 @@ public class IsHttpResourceIoxPluginTest {
         validator.validate(new EndBasketEvent());
         validator.validate(new EndTransferEvent());
         
-        assertTrue(logger.getErrs().size()==2); 
+        assertTrue(logger.getErrs().size()==4); 
     }
     
     @Test
@@ -151,6 +151,6 @@ public class IsHttpResourceIoxPluginTest {
 
         // size=3 because of 'invalid format of INTERLIS.URI value <65-Aedermannsdorf/Entscheide/65-5-E.pdf> in attribute attr4'
         // This was introduced after ilivalidator 1.8.1
-        assertTrue(logger.getErrs().size()==3); 
+        assertTrue(logger.getErrs().size()==5); 
     }
 }

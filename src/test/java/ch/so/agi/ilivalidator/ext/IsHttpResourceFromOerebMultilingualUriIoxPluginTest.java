@@ -121,7 +121,7 @@ public class IsHttpResourceFromOerebMultilingualUriIoxPluginTest {
         validator.validate(new EndBasketEvent());
         validator.validate(new EndTransferEvent());
         
-        assertTrue(logger.getErrs().size()==1);
+        assertTrue(logger.getErrs().size()==2);
     }
 
 }

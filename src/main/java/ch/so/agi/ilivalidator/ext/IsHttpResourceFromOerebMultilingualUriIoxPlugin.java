@@ -65,16 +65,14 @@ public class IsHttpResourceFromOerebMultilingualUriIoxPlugin implements Interlis
                 if (200 <= responseCode && responseCode <= 399) {
                     return new Value(true);
                 } else {
-                    logger.addEvent(logger.logErrorMsg("document not found: " + mainObj.getobjectoid(), mainObj.getobjectoid()));                    
-                    logger.addEvent(logger.logInfoMsg("document --- info ---- not found: " + mainObj.getobjectoid(), mainObj.getobjectoid()));                    
+                    logger.addEvent(logger.logErrorMsg("Document not found. TID: " + mainObj.getobjectoid(), mainObj.getobjectoid()));                    
                     return new Value(false);
                 }
 
             } catch (IOException e) {
                 // When there is no server for a feedback, we end
                 // up here.
-                logger.addEvent(logger.logErrorMsg("document not found: " + mainObj.getobjectoid(), mainObj.getobjectoid()));                    
-                logger.addEvent(logger.logInfoMsg("document --- info ---- not found: " + mainObj.getobjectoid(), mainObj.getobjectoid()));                                    
+                logger.addEvent(logger.logErrorMsg("Document not found. TID: " + mainObj.getobjectoid(), mainObj.getobjectoid()));                    
                 return new Value(false);
             }
         }
