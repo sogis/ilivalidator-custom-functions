@@ -1,12 +1,18 @@
 package ch.so.agi.ilivalidator.ext;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import ch.ehi.basics.settings.Settings;
 import ch.interlis.ili2c.Ili2cException;
@@ -54,7 +60,11 @@ public class IsHttpResourceFromOerebMultilingualUriIoxPlugin implements Interlis
             IomObject localisedUri = multilingualUriStruct.getattrobj("LocalisedText", i);
             try {
                 
-                String decodedUrl = java.net.URLDecoder.decode(localisedUri.getattrvalue("Text").trim(), "UTF-8"); // trim fixes some illegal character exception
+                String encodedUrl = localisedUri.getattrvalue("Text").trim();
+
+                // TODO: Nicht wirklich sicher, ob das ganz korrekt ist.
+                String decodedUrl = java.net.URLDecoder.decode(encodedUrl, "UTF-8").replace("&amp;", "&"); 
+                
                 URL siteURL = new URL(decodedUrl);
                 HttpURLConnection connection = (HttpURLConnection) siteURL.openConnection();
                 // HEAD does not work in a lot of environments and returns a 405 status code.
@@ -67,20 +77,20 @@ public class IsHttpResourceFromOerebMultilingualUriIoxPlugin implements Interlis
                 if (200 <= responseCode && responseCode <= 399) {
                     return new Value(true);
                 } else {
-                    logger.addEvent(logger.logErrorMsg("Document not found. TID: " + mainObj.getobjectoid(), mainObj.getobjectoid()));                    
+                    logger.addEvent(logger.logErrorMsg("Document ("+decodedUrl+") not found. TID: " + mainObj.getobjectoid(), mainObj.getobjectoid()));                    
                     return new Value(false);
                 }
-
+                
             } catch (IOException e) {
                 // When there is no server for a feedback, we end
                 // up here.
                 logger.addEvent(logger.logErrorMsg("Document not found. TID: " + mainObj.getobjectoid(), mainObj.getobjectoid()));                    
                 return new Value(false);
-            }
+            }  
         }
         return new Value(false);
     }
-
+    
     @Override
     public String getQualifiedIliName() {
         return "SO_FunctionsExt.isHttpResourceFromOerebMultilingualUri";
