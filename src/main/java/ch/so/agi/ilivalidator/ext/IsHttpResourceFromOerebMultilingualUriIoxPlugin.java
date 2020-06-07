@@ -53,7 +53,9 @@ public class IsHttpResourceFromOerebMultilingualUriIoxPlugin implements Interlis
         for (int i=0; i<multilingualUriStruct.getattrvaluecount("LocalisedText"); i++) {            
             IomObject localisedUri = multilingualUriStruct.getattrobj("LocalisedText", i);
             try {
-                URL siteURL = new URL(localisedUri.getattrvalue("Text"));
+                
+                String decodedUrl = java.net.URLDecoder.decode(localisedUri.getattrvalue("Text").trim(), "UTF-8"); // trim fixes some illegal character exception
+                URL siteURL = new URL(decodedUrl);
                 HttpURLConnection connection = (HttpURLConnection) siteURL.openConnection();
                 // HEAD does not work in a lot of environments and returns a 405 status code.
                 connection.setRequestMethod("GET");
