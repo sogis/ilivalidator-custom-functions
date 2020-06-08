@@ -156,4 +156,38 @@ public class IsHttpResourceFromOerebMultilingualUriIoxPluginTest {
         
         assertTrue(logger.getErrs().size()==0);
     }
+    
+    @Test 
+    void isHttpResourceMultilingual_MultipleValues_Fail() {
+        Iom_jObject iomObjA = new Iom_jObject(ILI_CLASSD, OBJ_OID1);
+        Iom_jObject objStructD = (Iom_jObject) iomObjA.addattrobj("TextImWeb", STRUCTD);
+        Iom_jObject objStructS1 = (Iom_jObject) objStructD.addattrobj("LocalisedText", STRUCTS);
+        objStructS1.setattrvalue("Language", "de");
+        objStructS1.setattrvalue("Text", "https://geo.so.ch/map?t=kbs&amp;s=1000&amp;c=2640046,1254048&amp;lang=de");
+        Iom_jObject objStructS2 = (Iom_jObject) objStructD.addattrobj("LocalisedText", STRUCTS);
+        objStructS2.setattrvalue("Language", "fr");
+        objStructS2.setattrvalue("Text", "https://geo.so.ch/map?t=kbs&amp;s=1000&amp;c=2640046,1254048&amp;lang=fr");
+        Iom_jObject objStructS3 = (Iom_jObject) objStructD.addattrobj("LocalisedText", STRUCTS);
+        objStructS3.setattrvalue("Language", "it");
+        objStructS3.setattrvalue("Text", "https://XXXXXXXgeo.so.ch/map?t=kbs&amp;s=1000&amp;c=2640046,1254048&amp;lang=it");
+  
+        ValidationConfig modelConfig = new ValidationConfig();
+        modelConfig.mergeIliMetaAttrs(td);
+        LogCollector logger = new LogCollector();
+        LogEventFactory errFactory = new LogEventFactory();
+        Settings settings = new Settings();
+        Map<String,Class> newFunctions = new HashMap<String,Class>();
+        newFunctions.put("SO_FunctionsExt.isHttpResourceFromOerebMultilingualUri", IsHttpResourceFromOerebMultilingualUriIoxPlugin.class);
+        settings.setTransientObject(Validator.CONFIG_CUSTOM_FUNCTIONS, newFunctions);
+        Validator validator=new Validator(td, modelConfig, logger, errFactory, new PipelinePool(), settings);
+        
+        validator.validate(new StartTransferEvent());
+        validator.validate(new StartBasketEvent(ILI_TOPIC,BID1));
+        validator.validate(new ObjectEvent(iomObjA));
+        validator.validate(new EndBasketEvent());
+        validator.validate(new EndTransferEvent());
+        
+        assertTrue(logger.getErrs().size()==2);
+    }
+
 }

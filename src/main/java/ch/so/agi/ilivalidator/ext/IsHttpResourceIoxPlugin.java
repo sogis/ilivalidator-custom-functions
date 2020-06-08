@@ -31,20 +31,26 @@ public class IsHttpResourceIoxPlugin implements InterlisFunction {
         try {
             URL siteURL = new URL(prefixValue + urlValue);
             HttpURLConnection connection = (HttpURLConnection) siteURL.openConnection();
-            // HEAD does not work in a lot of environments and returns a 405 status code. 
-            connection.setRequestMethod("GET");
+            connection.setRequestMethod("HEAD");
             connection.setConnectTimeout(3000);
             connection.connect();
     
             int responseCode = connection.getResponseCode();
-
-            if (200 <= responseCode && responseCode <= 399) {
-                return new Value(true); 
-            } else {
-                logger.addEvent(logger.logErrorMsg("Document not found. TID: " + mainObj.getobjectoid(), mainObj.getobjectoid()));                                    
-                return new Value(false);
-            }
             
+            if (200 <= responseCode && responseCode <= 399) {
+                return new Value(true);
+            } else {
+                connection = (HttpURLConnection) siteURL.openConnection();
+                connection.setRequestMethod("GET");
+                connection.connect();
+                responseCode = connection.getResponseCode();
+                if (200 <= responseCode && responseCode <= 399) { 
+                    return new Value(true);
+                } else {
+                    logger.addEvent(logger.logErrorMsg("Document ("+siteURL.toString()+") not found. TID: " + mainObj.getobjectoid(), mainObj.getobjectoid()));                    
+                    return new Value(false);
+                }  
+            }
         } catch (IOException e) {
             // When there is no server for a feedback, we end
             // up here.

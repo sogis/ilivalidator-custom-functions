@@ -58,40 +58,50 @@ public class IsHttpResourceFromOerebMultilingualUriIoxPlugin implements Interlis
 
         // TODO: So stimmt das noch nicht, da die Schleife gar nicht durchlaufen wird,
         // sondern beim ersten Objekt gleich returned wird.
+        boolean value = true;
         for (int i=0; i<multilingualUriStruct.getattrvaluecount("LocalisedText"); i++) { 
-            System.out.println("foo" + i);
             IomObject localisedUri = multilingualUriStruct.getattrobj("LocalisedText", i);
             try {
-                
                 String encodedUrl = localisedUri.getattrvalue("Text").trim();
 
                 // TODO: Nicht wirklich sicher, ob das ganz korrekt ist.
+                // Die Url sind "nur" XML-kodiert. Was heisst das?
+                // '&' -> '&amp;'
                 String decodedUrl = java.net.URLDecoder.decode(encodedUrl, "UTF-8").replace("&amp;", "&"); 
                 
                 URL siteURL = new URL(decodedUrl);
                 HttpURLConnection connection = (HttpURLConnection) siteURL.openConnection();
-                // HEAD does not work in a lot of environments and returns a 405 status code.
-                connection.setRequestMethod("GET");
+
+                // Try first HEAD. If not sucessfull, try GET.
+                connection.setRequestMethod("HEAD");
                 connection.setConnectTimeout(3000);
                 connection.connect();
 
                 int responseCode = connection.getResponseCode();
 
                 if (200 <= responseCode && responseCode <= 399) {
-                    return new Value(true);
+                    // do nothing
                 } else {
-                    logger.addEvent(logger.logErrorMsg("Document ("+decodedUrl+") not found. TID: " + mainObj.getobjectoid(), mainObj.getobjectoid()));                    
-                    return new Value(false);
+                    connection = (HttpURLConnection) siteURL.openConnection();
+                    connection.setRequestMethod("GET");
+                    connection.connect();
+                    responseCode = connection.getResponseCode();
+                    if (200 <= responseCode && responseCode <= 399) { 
+                        // do nothing
+                    } else {
+                        logger.addEvent(logger.logErrorMsg("Document ("+decodedUrl+") not found. TID: " + mainObj.getobjectoid(), mainObj.getobjectoid()));                    
+                        value = false;
+                    }  
                 }
-                
             } catch (IOException e) {
                 // When there is no server for a feedback, we end
                 // up here.
                 logger.addEvent(logger.logErrorMsg("Document not found. TID: " + mainObj.getobjectoid(), mainObj.getobjectoid()));                    
-                return new Value(false);
+                //return new Value(false);
+                value=false;
             }  
         }
-        return new Value(false);
+        return new Value(value);
     }
     
     @Override
