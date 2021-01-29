@@ -20,7 +20,7 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew build
     - name: Publish Jar
-      if: success() && github.ref == 'refs/heads/master'
+      if: ${{ success() }} && github.ref == 'refs/heads/master'
       env:
         bintrayUser: ${{secrets.bintrayUser}}
         bintrayKey: ${{secrets.bintrayKey}}
