@@ -39,7 +39,7 @@ public class IsValidDocumentsCycleIoxPlugin implements InterlisFunction {
             String startOid = mainObj.getattrobj("Ursprung", 0).getobjectrefoid();
             String endOid = mainObj.getattrobj("Hinweis", 0).getobjectrefoid();
             
-            // Self loop: An association the points from document A to document A.
+            // Self loop: An association that points from document A to document A.
             if (startOid.equals(endOid)) {
                 logger.addEvent(logger.logErrorMsg("self loop found: " + startOid, startOid));
                 return new Value(false);
