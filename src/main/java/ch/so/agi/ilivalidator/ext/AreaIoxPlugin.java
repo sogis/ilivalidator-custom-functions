@@ -1,38 +1,21 @@
 package ch.so.agi.ilivalidator.ext;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 
 import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.io.ParseException;
-import com.vividsolutions.jts.io.WKBReader;
 
 import ch.ehi.basics.settings.Settings;
-import ch.interlis.ili2c.metamodel.AttributeDef;
-import ch.interlis.ili2c.metamodel.CompositionType;
-import ch.interlis.ili2c.metamodel.CoordType;
 import ch.interlis.ili2c.metamodel.LocalAttribute;
-import ch.interlis.ili2c.metamodel.SurfaceType;
-import ch.interlis.ili2c.metamodel.Table;
 import ch.interlis.ili2c.metamodel.TransferDescription;
 import ch.interlis.ili2c.metamodel.Viewable;
-import ch.interlis.ili2c.metamodel.Type;
 import ch.interlis.iom.IomObject;
 import ch.interlis.iox.IoxValidationConfig;
-import ch.interlis.iox_j.jts.Iox2jts;
 import ch.interlis.iox_j.jts.Iox2jtsException;
 import ch.interlis.iox_j.logging.LogEventFactory;
 import ch.interlis.iox_j.validator.InterlisFunction;
 import ch.interlis.iox_j.validator.ObjectPool;
 import ch.interlis.iox_j.validator.Value;
-import ch.interlis.iox_j.wkb.Iox2wkb;
-import ch.interlis.iox_j.wkb.Iox2wkbException;
-import ch.ehi.ili2db.mapping.MultiSurfaceMappings;
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 // For the geometry handling see: https://github.com/AgenciaImplementacion/iliValidator_custom_plugins/blob/master/src/main/java/co/interlis/topology/ContainsIoxPlugin.java
 public class AreaIoxPlugin implements InterlisFunction {    
