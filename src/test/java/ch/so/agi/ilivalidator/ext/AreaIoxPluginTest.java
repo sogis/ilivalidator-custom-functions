@@ -46,7 +46,6 @@ public class AreaIoxPluginTest {
         }
         td = ch.interlis.ili2c.Ili2c.runCompiler(ili2cConfig);
         assertNotNull(td);
-
     }
     
     @Test

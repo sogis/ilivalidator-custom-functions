@@ -11,7 +11,7 @@ CONTRACTED MODEL SO_FunctionsExt
     !!@ ist der Rückgabewert der Funktion true.";
     !!@ fn.param = "url Die URL der zu prüfenden HTTP-Ressource.";
     !!@ fn.param = "prefix Beliebiger URL-Prefix.";
-    !!@ fn.return = "True, falls die Ressource existiert. False, falls die Resource
+    !!@ fn.return = "True, falls die Ressource existiert. False, falls die Ressource
     !!@ nicht existiert.";
     !!@ fn.since = "2019-01-27";
     FUNCTION isHttpResource (url: TEXT; prefix: TEXT): BOOLEAN;
@@ -20,7 +20,7 @@ CONTRACTED MODEL SO_FunctionsExt
     !!@ Falls der Status-Code grösser gleich 200 und kleiner gleich 399 sein,
     !!@ ist der Rückgabewert der Funktion true.";
     !!@ fn.param = "Object Attribut mit der zu prüfenden OEREB-MultilingualUrl.";
-    !!@ fn.return = "True, falls die Ressource existiert. False, falls die Resource
+    !!@ fn.return = "True, falls die Ressource existiert. False, falls die Ressource
     !!@ nicht existiert.";
     !!@ fn.since = "2020-06-05";
     FUNCTION isHttpResourceFromOerebMultilingualUri (Object: ANYSTRUCTURE): BOOLEAN;
@@ -35,13 +35,16 @@ CONTRACTED MODEL SO_FunctionsExt
     !!@ fn.dependencies = "ili2db";
     FUNCTION area (geometry: OBJECTS OF ANYCLASS): NUMERIC;
     
-    
     !!@ fn.description = "Ermittelt die Länge einer Linien-Geometrie";
     !!@ fn.param = "geometry Geometrieattribut.";
     !!@ fn.return = "Länge der Geometrie";
     !!@ fn.since = "2021-02-27";
     !!@ fn.dependencies = "ili2db";
     FUNCTION length(geometry: OBJECTS OF ANYCLASS): NUMERIC;
+    
+    !! TODO
+    !! Prüfung nicht durchführen, falls eine JTS-Geometrie nicht valid ist.
+    FUNCTION areaWithoutHoles(Objects: OBJECTS OF ANYCLASS): BOOLEAN;
     
     /**
     * OEREB-Kataster (und kompatible Modelle)

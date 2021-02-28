@@ -23,6 +23,16 @@ CONTRACTED MODEL Testmodel
             !!@ ilivalid.msg = "Fläche ist zu klein."                        
             MANDATORY CONSTRAINT SO_FunctionsExt.area(flaeche) > 40;            
         END ClassC;
+        
+        CLASS ClassD = 
+            linie: POLYLINE WITH (STRAIGHTS) VERTEX Lkoord WITHOUT OVERLAPS > 0.001;
+            !!@ name = lengthEqualityCheck
+            !!@ ilivalid.msg = "Länge der Linie ist falsch."
+            MANDATORY CONSTRAINT SO_FunctionsExt.length(linie) == 20;
+            !!@ name = lengthMustBeLargerThanCheck
+            !!@ ilivalid.msg = "Linie ist zu kurz."
+            MANDATORY CONSTRAINT SO_FunctionsExt.length(linie) > 10;
+        END ClassD;    
                               
     END Topic;
     
