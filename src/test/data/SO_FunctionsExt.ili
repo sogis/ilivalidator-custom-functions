@@ -44,7 +44,7 @@ CONTRACTED MODEL SO_FunctionsExt
     
     !! TODO
     !! Prüfung nicht durchführen, falls eine JTS-Geometrie nicht valid ist.
-    FUNCTION areaWithoutHoles(Objects: OBJECTS OF ANYCLASS): BOOLEAN;
+    FUNCTION areAreasWithoutHoles(Objects: OBJECTS OF ANYCLASS; GeometryAttr: TEXT): BOOLEAN;
     
     /**
     * OEREB-Kataster (und kompatible Modelle)
