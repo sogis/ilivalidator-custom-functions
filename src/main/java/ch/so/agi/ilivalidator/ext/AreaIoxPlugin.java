@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.Polygon;
 
 import ch.ehi.basics.settings.Settings;
 import ch.interlis.ili2c.metamodel.LocalAttribute;
@@ -68,7 +69,7 @@ public class AreaIoxPlugin implements InterlisFunction {
             logger.addEvent(logger.logErrorMsg(e.getMessage()));
             return Value.createSkipEvaluation();            
         }
-
+        
         return new Value(geometryObject.getArea());
     }
     

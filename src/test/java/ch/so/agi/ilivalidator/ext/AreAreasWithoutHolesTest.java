@@ -29,8 +29,11 @@ public class AreAreasWithoutHolesTest {
     private TransferDescription td = null;
     private final static String OBJ_OID1 ="o1";
     private final static String OBJ_OID2 ="o2";
+    private final static String OBJ_OID3 ="o3";
+    
     private final static String ILI_TOPIC = "Testmodel.Topic";
     private final static String ILI_CLASSE = ILI_TOPIC+".ClassE";
+    private final static String ILI_CLASSB = ILI_TOPIC+".ClassB";
     private final static String BID1 = "b1";
 
     @BeforeEach
@@ -55,6 +58,11 @@ public class AreAreasWithoutHolesTest {
     
     @Test 
     public void area_Fail() throws Exception {
+        // ObjectPool test
+        Iom_jObject objB = new Iom_jObject(ILI_CLASSB, OBJ_OID3);
+        objB.setattrvalue("attr1", "foo");
+        objB.setattrvalue("dateattr2", "adate");
+        
         Iom_jObject objSurface1 = new Iom_jObject(ILI_CLASSE, OBJ_OID1);
         IomObject multisurfaceValue1 = objSurface1.addattrobj("gebietseinteilung", "MULTISURFACE");
         IomObject surfaceValue1 = multisurfaceValue1.addattrobj("surface", "SURFACE");
@@ -156,6 +164,7 @@ public class AreAreasWithoutHolesTest {
         Validator validator=new Validator(td, modelConfig, logger, errFactory, new PipelinePool(), settings);
         validator.validate(new StartTransferEvent());
         validator.validate(new StartBasketEvent(ILI_TOPIC,BID1));
+        validator.validate(new ObjectEvent(objB));
         validator.validate(new ObjectEvent(objSurface1));
         validator.validate(new ObjectEvent(objSurface2));
         validator.validate(new EndBasketEvent());

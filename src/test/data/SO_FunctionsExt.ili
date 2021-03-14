@@ -46,6 +46,10 @@ CONTRACTED MODEL SO_FunctionsExt
     !! Prüfung nicht durchführen, falls eine JTS-Geometrie nicht valid ist.
     FUNCTION areAreasWithoutHoles(Objects: OBJECTS OF ANYCLASS; GeometryAttr: TEXT): BOOLEAN;
     
+    !! TODO
+    FUNCTION hasRingSelfIntersections(geometry: OBJECTS OF ANYCLASS): BOOLEAN;
+    
+    
     /**
     * OEREB-Kataster (und kompatible Modelle)
     */
