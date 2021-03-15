@@ -14,7 +14,7 @@ targetCompatibility = JavaVersion.VERSION_1_8
 group = 'ch.so.agi.ilivalidator'
 
 repositories {
-    jcenter()
+    //jcenter()
     mavenCentral()
     maven { url "http://jars.interlis.ch" }
 }

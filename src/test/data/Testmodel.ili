@@ -33,6 +33,11 @@ CONTRACTED MODEL Testmodel
             !!@ ilivalid.msg = "Linie ist zu kurz."
             MANDATORY CONSTRAINT SO_FunctionsExt.length(linie) > 10;
         END ClassD;    
+        
+        CLASS ClassE = 
+            gebietseinteilung: AREA WITH (STRAIGHTS) VERTEX Lkoord WITHOUT OVERLAPS > 0.001;
+        END ClassE;
+        
                               
     END Topic;
     
