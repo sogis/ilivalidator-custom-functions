@@ -2,10 +2,18 @@ package ch.so.agi.ilivalidator.ext;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.GeometryFactory;
+import com.vividsolutions.jts.geom.LinearRing;
 import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.io.WKTReader;
 
@@ -17,6 +25,7 @@ import ch.interlis.iom.IomObject;
 import ch.interlis.iom_j.Iom_jObject;
 import ch.interlis.iox_j.jts.Iox2jts;
 import ch.interlis.iox_j.jts.Iox2jtsException;
+import ch.interlis.iox_j.jts.Jts2iox;
 
 public class RingSelfIntersectionIoxPluginTest {
     private TransferDescription td = null;
@@ -64,33 +73,33 @@ public class RingSelfIntersectionIoxPluginTest {
         IomObject endSegment2 = segments2.addattrobj("segment", "COORD");
         endSegment2.setattrvalue("C1", "5.000");
         endSegment2.setattrvalue("C2", "10.000");
-//        // polyline 3
-//        IomObject polylineValue3 = outerBoundary.addattrobj("polyline", "POLYLINE");
-//        IomObject segments3 = polylineValue3.addattrobj("sequence", "SEGMENTS");
-//        IomObject startSegment3 = segments3.addattrobj("segment", "COORD");
-//        startSegment3.setattrvalue("C1", "5.000");
-//        startSegment3.setattrvalue("C2", "10.000");
-//        IomObject endSegment3 = segments3.addattrobj("segment", "COORD");
-//        endSegment3.setattrvalue("C1", "4.000");
-//        endSegment3.setattrvalue("C2", "9.000");
-//        // polyline 4
-//        IomObject polylineValue4 = outerBoundary.addattrobj("polyline", "POLYLINE");
-//        IomObject segments4 = polylineValue4.addattrobj("sequence", "SEGMENTS");
-//        IomObject startSegment4 = segments4.addattrobj("segment", "COORD");
-//        startSegment4.setattrvalue("C1", "4.000");
-//        startSegment4.setattrvalue("C2", "9.000");
-//        IomObject endSegment4 = segments4.addattrobj("segment", "COORD");
-//        endSegment4.setattrvalue("C1", "6.000");
-//        endSegment4.setattrvalue("C2", "9.000");
-//        // polyline 5
-//        IomObject polylineValue5 = outerBoundary.addattrobj("polyline", "POLYLINE");
-//        IomObject segments5 = polylineValue5.addattrobj("sequence", "SEGMENTS");
-//        IomObject startSegment5 = segments5.addattrobj("segment", "COORD");
-//        startSegment5.setattrvalue("C1", "6.000");
-//        startSegment5.setattrvalue("C2", "9.000");
-//        IomObject endSegment5 = segments5.addattrobj("segment", "COORD");
-//        endSegment5.setattrvalue("C1", "5.000");
-//        endSegment5.setattrvalue("C2", "10.000");
+        // polyline 3
+        IomObject polylineValue3 = outerBoundary.addattrobj("polyline", "POLYLINE");
+        IomObject segments3 = polylineValue3.addattrobj("sequence", "SEGMENTS");
+        IomObject startSegment3 = segments3.addattrobj("segment", "COORD");
+        startSegment3.setattrvalue("C1", "5.000");
+        startSegment3.setattrvalue("C2", "10.000");
+        IomObject endSegment3 = segments3.addattrobj("segment", "COORD");
+        endSegment3.setattrvalue("C1", "4.000");
+        endSegment3.setattrvalue("C2", "9.000");
+        // polyline 4
+        IomObject polylineValue4 = outerBoundary.addattrobj("polyline", "POLYLINE");
+        IomObject segments4 = polylineValue4.addattrobj("sequence", "SEGMENTS");
+        IomObject startSegment4 = segments4.addattrobj("segment", "COORD");
+        startSegment4.setattrvalue("C1", "4.000");
+        startSegment4.setattrvalue("C2", "9.000");
+        IomObject endSegment4 = segments4.addattrobj("segment", "COORD");
+        endSegment4.setattrvalue("C1", "6.000");
+        endSegment4.setattrvalue("C2", "9.000");
+        // polyline 5
+        IomObject polylineValue5 = outerBoundary.addattrobj("polyline", "POLYLINE");
+        IomObject segments5 = polylineValue5.addattrobj("sequence", "SEGMENTS");
+        IomObject startSegment5 = segments5.addattrobj("segment", "COORD");
+        startSegment5.setattrvalue("C1", "6.000");
+        startSegment5.setattrvalue("C2", "9.000");
+        IomObject endSegment5 = segments5.addattrobj("segment", "COORD");
+        endSegment5.setattrvalue("C1", "5.000");
+        endSegment5.setattrvalue("C2", "10.000");
         // polyline 6
         IomObject polylineValue6 = outerBoundary.addattrobj("polyline", "POLYLINE");
         IomObject segments6 = polylineValue6.addattrobj("sequence", "SEGMENTS");
@@ -123,14 +132,62 @@ public class RingSelfIntersectionIoxPluginTest {
 
         //?? 
         Geometry g = Iox2jts.surface2JTS(multisurfaceValue, 0);
-        System.out.println(g);
+        System.out.println(((Polygon)g).getExteriorRing());
         System.out.println(g.isValid());
         
-        Geometry p = new WKTReader().read("POLYGON ((0 0, 0 10, 5 10, 10 10, 10 0, 0 0))");
-        System.out.println(p);
-        System.out.println(p.getArea());
-        System.out.println(p.isValid());
+        GeometryFactory fact = g.getFactory();
+        Coordinate[] coords = removeDuplicatePoints(((Polygon)g).getExteriorRing().getCoordinates());
+        LinearRing r = fact.createLinearRing(coords);
+        System.out.println(coords);
+        
+        Map<Coordinate,Coordinate> coordinateCache = new HashMap<Coordinate,Coordinate>();
+        for (int i=0; i<coords.length; i++) {
+            if (i==0) {
+                // Erste und letzte Koordinate sind identisch: Ignorieren der ersten
+                // Koordinate.
+                continue;
+            }
+            
+            if (coordinateCache.containsKey(coords[i])) {
+                System.out.println(coords[i]);
+            } else {
+                coordinateCache.put(coords[i], coords[i]);
+            }
+            
+            
+            
+        }
+        
+        
+        
+//        for (int i = 0; i < coordinateSequence.size() - 1; i++) {
+//
+//        }
+        
+        
+//        Geometry p = new WKTReader().read("POLYGON ((0 0, 0 10, 5 10, 10 10, 10 0, 0 0))");
+//        System.out.println(p);
+//        System.out.println(p.getArea());
+//        System.out.println(p.isValid());
+//        
+//        
+//        IomObject polyObj = Jts2iox.JTS2surface((Polygon)p);
+//        System.out.println(polyObj.toString());
         
     }
+    
+    private static Coordinate[] removeDuplicatePoints(Coordinate[] coord)
+    {
+      List uniqueCoords = new ArrayList();
+      Coordinate lastPt = null;
+      for (int i = 0; i < coord.length; i++) {
+        if (lastPt == null || ! lastPt.equals(coord[i])) {
+          lastPt = coord[i];
+          uniqueCoords.add(new Coordinate(lastPt));
+        }
+      }
+      return (Coordinate[]) uniqueCoords.toArray(new Coordinate[0]);
+    }
+
 
 }
