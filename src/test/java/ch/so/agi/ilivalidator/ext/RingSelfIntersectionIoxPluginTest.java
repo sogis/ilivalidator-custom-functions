@@ -121,10 +121,10 @@ public class RingSelfIntersectionIoxPluginTest {
         
         System.out.println(objSurface);
 
+        //?? 
         Geometry g = Iox2jts.surface2JTS(multisurfaceValue, 0);
         System.out.println(g);
         System.out.println(g.isValid());
-        
         
         Geometry p = new WKTReader().read("POLYGON ((0 0, 0 10, 5 10, 10 10, 10 0, 0 0))");
         System.out.println(p);
