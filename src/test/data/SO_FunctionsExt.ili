@@ -42,7 +42,7 @@ CONTRACTED MODEL SO_FunctionsExt
     !!@ fn.dependencies = "ili2db";
     FUNCTION length (geometry: OBJECTS OF ANYCLASS): NUMERIC;
     
-    !!@ fn.description = "Prüft, ob eine Geometrie eine Ring-Self-Intersection enthält.
+    !!@ fn.description = "Prüft, ob eine polygonale Geometrie eine Ring-Self-Intersection enthält.
     !!@ Temporär bis gefixed in ilivalidator.";
     !!@ fn.param = "geometry Geometrieattribut.";
     !!@ fn.return = "True, falls eine Ring-Self-Intersection gefunden werden. Falls, falls keine gefunden werden.";
