@@ -1,10 +1,13 @@
 package ch.so.agi.ilivalidator.ext;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.io.ParseException;
@@ -39,6 +42,19 @@ public class GeometryUtils {
     public static final String METAATTR_MAPPING_ARRAY = "ARRAY";
     public static final String METAATTR_DISPNAME = "ili2db.dispName";
 
+    public static Coordinate[] removeDuplicatePoints(Coordinate[] coord)
+    {
+      List uniqueCoords = new ArrayList();
+      Coordinate lastPt = null;
+      for (int i = 0; i < coord.length; i++) {
+        if (lastPt == null || ! lastPt.equals(coord[i])) {
+          lastPt = coord[i];
+          uniqueCoords.add(new Coordinate(lastPt));
+        }
+      }
+      return (Coordinate[]) uniqueCoords.toArray(new Coordinate[0]);
+    }
+    
     public static String getGeometryType(IomObject xtfGeom, IomObject mainObj, HashMap<String, Viewable> tag2class, TransferDescription td) {
         String geomType = null;
         

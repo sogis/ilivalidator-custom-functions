@@ -1,6 +1,7 @@
 package ch.so.agi.ilivalidator.ext;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,15 +18,26 @@ import com.vividsolutions.jts.geom.LinearRing;
 import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.io.WKTReader;
 
+import ch.ehi.basics.settings.Settings;
 import ch.interlis.ili2c.config.Configuration;
 import ch.interlis.ili2c.config.FileEntry;
 import ch.interlis.ili2c.config.FileEntryKind;
 import ch.interlis.ili2c.metamodel.TransferDescription;
 import ch.interlis.iom.IomObject;
 import ch.interlis.iom_j.Iom_jObject;
+import ch.interlis.iox_j.EndBasketEvent;
+import ch.interlis.iox_j.EndTransferEvent;
+import ch.interlis.iox_j.ObjectEvent;
+import ch.interlis.iox_j.PipelinePool;
+import ch.interlis.iox_j.StartBasketEvent;
+import ch.interlis.iox_j.StartTransferEvent;
 import ch.interlis.iox_j.jts.Iox2jts;
 import ch.interlis.iox_j.jts.Iox2jtsException;
+import ch.interlis.iox_j.jts.Iox2jtsext;
 import ch.interlis.iox_j.jts.Jts2iox;
+import ch.interlis.iox_j.logging.LogEventFactory;
+import ch.interlis.iox_j.validator.ValidationConfig;
+import ch.interlis.iox_j.validator.Validator;
 
 public class RingSelfIntersectionIoxPluginTest {
     private TransferDescription td = null;
@@ -50,7 +62,7 @@ public class RingSelfIntersectionIoxPluginTest {
     }
     
     @Test
-    public void findRingSelfIntersection() throws Exception {
+    public void polygonWithRingSelfIntersection() throws Exception {
         Iom_jObject objSurface = new Iom_jObject(ILI_CLASSE, OBJ_OID1);
         IomObject multisurfaceValue = objSurface.addattrobj("gebietseinteilung", "MULTISURFACE");
         IomObject surfaceValue = multisurfaceValue.addattrobj("surface", "SURFACE");
@@ -128,66 +140,89 @@ public class RingSelfIntersectionIoxPluginTest {
         endSegment8.setattrvalue("C1", "0.000");
         endSegment8.setattrvalue("C2", "0.000");
         
-        System.out.println(objSurface);
+        ValidationConfig modelConfig=new ValidationConfig();
+        LogCollector logger=new LogCollector();
+        LogEventFactory errFactory=new LogEventFactory();
+        Settings settings=new Settings();
+        Map<String,Class> newFunctions = new HashMap<String,Class>();
+        newFunctions.put("SO_FunctionsExt.hasRingSelfIntersection", RingSelfIntersectionIoxPlugin.class);
+        settings.setTransientObject(Validator.CONFIG_CUSTOM_FUNCTIONS, newFunctions);        
+        Validator validator=new Validator(td, modelConfig, logger, errFactory, new PipelinePool(), settings);
+        validator.validate(new StartTransferEvent());
+        validator.validate(new StartBasketEvent(ILI_TOPIC,BID1));
+        validator.validate(new ObjectEvent(objSurface));
+        validator.validate(new EndBasketEvent());
+        validator.validate(new EndTransferEvent());
 
-        //?? 
-        Geometry g = Iox2jts.surface2JTS(multisurfaceValue, 0);
-        System.out.println(((Polygon)g).getExteriorRing());
-        System.out.println(g.isValid());
-        
-        GeometryFactory fact = g.getFactory();
-        Coordinate[] coords = removeDuplicatePoints(((Polygon)g).getExteriorRing().getCoordinates());
-        LinearRing r = fact.createLinearRing(coords);
-        System.out.println(coords);
-        
-        Map<Coordinate,Coordinate> coordinateCache = new HashMap<Coordinate,Coordinate>();
-        for (int i=0; i<coords.length; i++) {
-            if (i==0) {
-                // Erste und letzte Koordinate sind identisch: Ignorieren der ersten
-                // Koordinate.
-                continue;
-            }
-            
-            if (coordinateCache.containsKey(coords[i])) {
-                System.out.println(coords[i]);
-            } else {
-                coordinateCache.put(coords[i], coords[i]);
-            }
-            
-            
-            
-        }
-        
-        
-        
-//        for (int i = 0; i < coordinateSequence.size() - 1; i++) {
-//
-//        }
-        
-        
-//        Geometry p = new WKTReader().read("POLYGON ((0 0, 0 10, 5 10, 10 10, 10 0, 0 0))");
-//        System.out.println(p);
-//        System.out.println(p.getArea());
-//        System.out.println(p.isValid());
-//        
-//        
-//        IomObject polyObj = Jts2iox.JTS2surface((Polygon)p);
-//        System.out.println(polyObj.toString());
-        
+        assertTrue(logger.getErrs().size()==2);
     }
     
-    private static Coordinate[] removeDuplicatePoints(Coordinate[] coord)
-    {
-      List uniqueCoords = new ArrayList();
-      Coordinate lastPt = null;
-      for (int i = 0; i < coord.length; i++) {
-        if (lastPt == null || ! lastPt.equals(coord[i])) {
-          lastPt = coord[i];
-          uniqueCoords.add(new Coordinate(lastPt));
-        }
-      }
-      return (Coordinate[]) uniqueCoords.toArray(new Coordinate[0]);
-    }
+    @Test
+    public void polygonWithoutRingSelfIntersection() throws Exception {
+        Iom_jObject objSurface = new Iom_jObject(ILI_CLASSE, OBJ_OID1);
+        IomObject multisurfaceValue = objSurface.addattrobj("gebietseinteilung", "MULTISURFACE");
+        IomObject surfaceValue = multisurfaceValue.addattrobj("surface", "SURFACE");
+        IomObject outerBoundary = surfaceValue.addattrobj("boundary", "BOUNDARY");
+        // polyline 1
+        IomObject polylineValue1 = outerBoundary.addattrobj("polyline", "POLYLINE");
+        IomObject segments1 = polylineValue1.addattrobj("sequence", "SEGMENTS");
+        IomObject startSegment1 = segments1.addattrobj("segment", "COORD");
+        startSegment1.setattrvalue("C1", "0.000");
+        startSegment1.setattrvalue("C2", "0.000");
+        IomObject endSegment1 = segments1.addattrobj("segment", "COORD");
+        endSegment1.setattrvalue("C1", "0.000");
+        endSegment1.setattrvalue("C2", "10.000");
+        // polyline 2
+        IomObject polylineValue2 = outerBoundary.addattrobj("polyline", "POLYLINE");
+        IomObject segments2 = polylineValue2.addattrobj("sequence", "SEGMENTS");
+        IomObject startSegment2 = segments2.addattrobj("segment", "COORD");
+        startSegment2.setattrvalue("C1", "0.000");
+        startSegment2.setattrvalue("C2", "10.000");
+        IomObject endSegment2 = segments2.addattrobj("segment", "COORD");
+        endSegment2.setattrvalue("C1", "5.000");
+        endSegment2.setattrvalue("C2", "10.000");
+        // polyline 6
+        IomObject polylineValue6 = outerBoundary.addattrobj("polyline", "POLYLINE");
+        IomObject segments6 = polylineValue6.addattrobj("sequence", "SEGMENTS");
+        IomObject startSegment6 = segments6.addattrobj("segment", "COORD");
+        startSegment6.setattrvalue("C1", "5.000");
+        startSegment6.setattrvalue("C2", "10.000");
+        IomObject endSegment6 = segments6.addattrobj("segment", "COORD");
+        endSegment6.setattrvalue("C1", "10.000");
+        endSegment6.setattrvalue("C2", "10.000");
+        // polyline 7
+        IomObject polylineValue7 = outerBoundary.addattrobj("polyline", "POLYLINE");
+        IomObject segments7 = polylineValue7.addattrobj("sequence", "SEGMENTS");
+        IomObject startSegment7 = segments7.addattrobj("segment", "COORD");
+        startSegment7.setattrvalue("C1", "10.000");
+        startSegment7.setattrvalue("C2", "10.000");
+        IomObject endSegment7 = segments7.addattrobj("segment", "COORD");
+        endSegment7.setattrvalue("C1", "10.000");
+        endSegment7.setattrvalue("C2", "0.000");
+        // polyline 8
+        IomObject polylineValue8 = outerBoundary.addattrobj("polyline", "POLYLINE");
+        IomObject segments8 = polylineValue8.addattrobj("sequence", "SEGMENTS");
+        IomObject startSegment8 = segments8.addattrobj("segment", "COORD");
+        startSegment8.setattrvalue("C1", "10.000");
+        startSegment8.setattrvalue("C2", "0.000");
+        IomObject endSegment8 = segments8.addattrobj("segment", "COORD");
+        endSegment8.setattrvalue("C1", "0.000");
+        endSegment8.setattrvalue("C2", "0.000");
+        
+        ValidationConfig modelConfig=new ValidationConfig();
+        LogCollector logger=new LogCollector();
+        LogEventFactory errFactory=new LogEventFactory();
+        Settings settings=new Settings();
+        Map<String,Class> newFunctions = new HashMap<String,Class>();
+        newFunctions.put("SO_FunctionsExt.hasRingSelfIntersection", RingSelfIntersectionIoxPlugin.class);
+        settings.setTransientObject(Validator.CONFIG_CUSTOM_FUNCTIONS, newFunctions);        
+        Validator validator=new Validator(td, modelConfig, logger, errFactory, new PipelinePool(), settings);
+        validator.validate(new StartTransferEvent());
+        validator.validate(new StartBasketEvent(ILI_TOPIC,BID1));
+        validator.validate(new ObjectEvent(objSurface));
+        validator.validate(new EndBasketEvent());
+        validator.validate(new EndTransferEvent());
 
-
+        assertTrue(logger.getErrs().size()==0);
+    }    
 }

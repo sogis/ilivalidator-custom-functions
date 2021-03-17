@@ -40,11 +40,14 @@ CONTRACTED MODEL SO_FunctionsExt
     !!@ fn.return = "Länge der Geometrie";
     !!@ fn.since = "2021-02-27";
     !!@ fn.dependencies = "ili2db";
-    FUNCTION length(geometry: OBJECTS OF ANYCLASS): NUMERIC;
+    FUNCTION length (geometry: OBJECTS OF ANYCLASS): NUMERIC;
     
-    !! TODO
-    !! Prüfung nicht durchführen, falls eine JTS-Geometrie nicht valid ist.
-    FUNCTION areaWithoutHoles(Objects: OBJECTS OF ANYCLASS): BOOLEAN;
+    !!@ fn.description = "Prüft, ob eine Geometrie eine Ring-Self-Intersection enthält.
+    !!@ Temporär bis gefixed in ilivalidator.";
+    !!@ fn.param = "geometry Geometrieattribut.";
+    !!@ fn.return = "True, falls eine Ring-Self-Intersection gefunden werden. Falls, falls keine gefunden werden.";
+    !!@ fn.since = "2021-03-17";
+    FUNCTION hasRingSelfIntersection (geometry: OBJECTS OF ANYCLASS): BOOLEAN;
     
     /**
     * OEREB-Kataster (und kompatible Modelle)

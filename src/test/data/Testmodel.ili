@@ -36,9 +36,11 @@ CONTRACTED MODEL Testmodel
         
         CLASS ClassE = 
             gebietseinteilung: AREA WITH (STRAIGHTS) VERTEX Lkoord WITHOUT OVERLAPS > 0.001;
+            !!@ name = hasRingSelfIntersection
+            !!@ ilivalid.msg = "Geometrie enthält Ring-Self-Intersection."
+            MANDATORY CONSTRAINT NOT ( SO_FunctionsExt.hasRingSelfIntersection(gebietseinteilung) );
         END ClassE;
         
-                              
     END Topic;
     
 END Testmodel.
