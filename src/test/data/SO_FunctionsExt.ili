@@ -45,9 +45,15 @@ CONTRACTED MODEL SO_FunctionsExt
     !!@ fn.description = "Prüft, ob eine polygonale Geometrie eine Ring-Self-Intersection enthält.
     !!@ Temporär bis gefixed in ilivalidator.";
     !!@ fn.param = "geometry Geometrieattribut.";
-    !!@ fn.return = "True, falls eine Ring-Self-Intersection gefunden werden. Falls, falls keine gefunden werden.";
+    !!@ fn.return = "True, falls eine Ring-Self-Intersection gefunden werden. False, falls keine gefunden werden.";
     !!@ fn.since = "2021-03-17";
     FUNCTION hasRingSelfIntersection (geometry: OBJECTS OF ANYCLASS): BOOLEAN;
+
+    !!@ fn.description = "Prüft, ob eine Polyline genügend Punkte aufweist (>= 2)."
+    !!@ fn.param = "geometry Geometrieattribut.";
+    !!@ fn.return = "True, falls die Polyline zu wenig Punkte aufweist. False, falls die Polyline genügend Punkte aufweist.";
+    !!@ fn.since = "2021-03-19";
+    FUNCTION tooFewPointsPolyline (geometry: OBJECTS OF ANYCLASS): BOOLEAN;
     
     /**
     * OEREB-Kataster (und kompatible Modelle)

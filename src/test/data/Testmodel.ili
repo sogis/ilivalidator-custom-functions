@@ -40,6 +40,13 @@ CONTRACTED MODEL Testmodel
             !!@ ilivalid.msg = "Geometrie enthält Ring-Self-Intersection."
             MANDATORY CONSTRAINT NOT ( SO_FunctionsExt.hasRingSelfIntersection(gebietseinteilung) );
         END ClassE;
+
+        CLASS ClassF = 
+            linie: POLYLINE WITH (STRAIGHTS) VERTEX Lkoord WITHOUT OVERLAPS > 0.001;
+            !!@ name = tooFewPointsCheck
+            !!@ ilivalid.msg = "Polyline hat zu wenig Punkte."
+            MANDATORY CONSTRAINT NOT ( SO_FunctionsExt.tooFewPointsPolyline(linie) );
+        END ClassF;
         
     END Topic;
     

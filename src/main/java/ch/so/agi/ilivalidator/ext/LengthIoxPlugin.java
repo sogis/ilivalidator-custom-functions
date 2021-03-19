@@ -62,7 +62,7 @@ public class LengthIoxPlugin implements InterlisFunction {
         try {
             geometryObject = GeometryUtils.geometry2JTS(xtfGeom, localAttr, geomType, strokeP, td);
         } catch (IllegalArgumentException e) {
-            logger.addEvent(logger.logErrorMsg("Given attribute is not a valid multisurface type"));
+            logger.addEvent(logger.logErrorMsg("Given attribute is not a valid geometry"));
             return Value.createSkipEvaluation();
         } catch (Iox2jtsException e) {
             logger.addEvent(logger.logErrorMsg(e.getMessage()));
