@@ -77,7 +77,7 @@ public class RingSelfIntersectionIoxPlugin implements InterlisFunction {
 
         GeometryFactory fact = geometryObject.getFactory();
         Coordinate[] coords = GeometryUtils.removeDuplicatePoints(((Polygon)geometryObject).getExteriorRing().getCoordinates());
-        LinearRing r = fact.createLinearRing(coords);
+        //LinearRing r = fact.createLinearRing(coords);
 
         boolean ringSelfIntersectionFound = false;
         Map<Coordinate,Coordinate> coordinateCache = new HashMap<Coordinate,Coordinate>();
