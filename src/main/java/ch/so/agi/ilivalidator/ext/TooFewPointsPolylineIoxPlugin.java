@@ -34,6 +34,9 @@ public class TooFewPointsPolylineIoxPlugin implements InterlisFunction {
             return Value.createSkipEvaluation();
         }
 
+        // TODO: Man kann das einfacher machen indem mach einfach das IomObject parst.
+        // Falls nur eine Koordinate vorhanden ist, hat es zuwenig Koordinaten.
+        
         IomObject xtfGeom = (IomObject) actualArguments[0].getComplexObjects().toArray()[0];
         String currentObjectTag = mainObj.getobjecttag();
         String geomType = GeometryUtils.getGeometryType(xtfGeom, mainObj, tag2class, td);
