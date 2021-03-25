@@ -62,9 +62,11 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
     from javadoc.destinationDir
 }
 
+/*
 ext {
     isReleasedVersion = !project.version.endsWith("-SNAPSHOT")
 }
+*/
 
 publishing {
     publications {
@@ -90,12 +92,14 @@ publishing {
                 username findProperty("ossrhUsername") ?: System.getenv("OSSRH_USERNAME")
                 password findProperty("ossrhPassword") ?: System.getenv("OSSRH_PASSWORD")
             }
-
+/*
             if (!isReleasedVersion) {
                 url "https://oss.sonatype.org/content/repositories/snapshots"
             } else {
                 url "https://oss.sonatype.org/service/local/staging/deploy/maven2"
             }
+*/
+            url "https://oss.sonatype.org/service/local/staging/deploy/maven2"
         }
     }
 }
