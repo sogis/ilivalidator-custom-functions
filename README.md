@@ -42,7 +42,7 @@ task validateFile(type: IliValidator) {
 Die Jar-Datei mit den Java-Klassen ist ins GRETL-Runtime-Image gebrannt und muss dementsprechend neu gebuildet werden, falls sich die etwas ändert. Der Pluginsordner ist nicht änderbar: `/home/gradle/plugins/`. Siehe [Dockerfile](https://github.com/sogis/gretl/blob/master/runtimeImage/gretl/Dockerfile).
 
 ## Developing
-Jeder Commit stösst die Github-Action Pipeline an. Ist der Build und das Testen erfolgreich, wird die Jar-Datei auf [Bintray](https://bintray.com/beta/#/sogis/ilivalidator-custom-functions?tab=packages) deployed.
+Jeder Commit stösst die Github-Action Pipeline an. Ist der Build und das Testen erfolgreich, wird die Jar-Datei auf Maven Central deployed.
 
 Das "Funktionskopf-Modell" `SO_FunctionsExt` muss - falls nötig - [separat deployed](https://github.com/sogis/sogis-interlis-repository) werden. Achtung: Funktionen müssen abwärtskompatibel sein, damit bereits deployte Funktionen immer noch funktionieren.
 
