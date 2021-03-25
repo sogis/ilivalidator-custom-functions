@@ -76,11 +76,19 @@ publishing {
             artifact javadocJar
 
             pom {
-                description = "Yein Chaos Core"
+                name = "ilivalidator-custom-functions"
+                url = "https://github.com/sogis/ilivalidator-custom-functions"
+                description = "ilivalidator-custom-functions"
                 scm {
                     connection = "scm:git:https@github.com/sogis/ilivalidator-custom-functions"
                     developerConnection = "scm:git:https@github.com/sogis/ilivalidator-custom-functions"
                     url = "https://github.com/sogis/ilivalidator-custom-functions"
+                }
+                developers {
+                    developer {
+                        id = "edigonzales"
+                        name = "Stefan Ziegler"
+                    }
                 }
             }
         }
