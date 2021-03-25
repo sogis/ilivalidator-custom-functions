@@ -2,9 +2,6 @@ plugins {
     id 'java-library'
     id 'maven-publish'
     id 'signing'
-    //id "com.jfrog.bintray" version "1.8.4"    
-    //id 'eclipse'
-
 }
 
 apply from: "$rootDir/gradle/versioning.gradle"
