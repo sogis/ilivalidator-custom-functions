@@ -2,6 +2,7 @@ plugins {
     id 'java-library'
     id 'maven-publish'
     id 'signing'
+    id "io.github.gradle-nexus.publish-plugin" version "1.0.0"
 }
 
 apply from: "$rootDir/gradle/versioning.gradle"
@@ -97,28 +98,40 @@ publishing {
         }
     }
 
+/*
     repositories {
         maven {
             credentials {
                 username findProperty("ossrhUsername") ?: System.getenv("OSSRH_USERNAME")
                 password findProperty("ossrhPassword") ?: System.getenv("OSSRH_PASSWORD")
             }
-/*
+
             if (!isReleasedVersion) {
                 url "https://oss.sonatype.org/content/repositories/snapshots"
             } else {
                 url "https://oss.sonatype.org/service/local/staging/deploy/maven2"
             }
-*/
-            url "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+            
+            //url "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
         }
     }
+*/
 }
 
 signing {
     sign publishing.publications.mavenJava
 }
 
+nexusPublishing {
+    repositories {
+        sonatype { 
+            nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
+            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
+            username = findProperty("ossrhUsername") ?: System.getenv("OSSRH_USERNAME")
+            password = findProperty("ossrhPassword") ?: System.getenv("OSSRH_PASSWORD")
+        }
+    }
+}
 
 
 /*
