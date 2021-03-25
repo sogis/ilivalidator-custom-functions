@@ -12,10 +12,9 @@ apply from: "$rootDir/gradle/versioning.gradle"
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
-group = 'ch.so.agi.ilivalidator'
+group = 'io.github.sogis'
 
 repositories {
-    //jcenter()
     mavenCentral()
     maven { url "http://jars.interlis.ch" }
 }
@@ -44,6 +43,7 @@ test {
     useJUnitPlatform()
 }
 
+// TODO: still needed?
 task fatJar(type: Jar) {
     baseName = project.name + '-all'
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
