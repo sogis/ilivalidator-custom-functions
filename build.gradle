@@ -84,6 +84,12 @@ publishing {
                     developerConnection = "scm:git:https@github.com/sogis/ilivalidator-custom-functions"
                     url = "https://github.com/sogis/ilivalidator-custom-functions"
                 }
+                licences {
+                    licence {
+                        name = "MIT"
+                        url = "https://github.com/sogis/ilivalidator-custom-functions/blob/master/LICENSE"
+                    }
+                }
                 developers {
                     developer {
                         id = "edigonzales"
