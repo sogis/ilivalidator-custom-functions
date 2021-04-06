@@ -1,9 +1,8 @@
 plugins {
     id 'java-library'
     id 'maven-publish'
-    id "com.jfrog.bintray" version "1.8.4"    
-    id 'eclipse'
-
+    id 'signing'
+    id "io.github.gradle-nexus.publish-plugin" version "1.0.0"
 }
 
 apply from: "$rootDir/gradle/versioning.gradle"
@@ -11,10 +10,9 @@ apply from: "$rootDir/gradle/versioning.gradle"
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
-group = 'ch.so.agi.ilivalidator'
+group = 'io.github.sogis'
 
 repositories {
-    //jcenter()
     mavenCentral()
     maven { url "http://jars.interlis.ch" }
 }
@@ -43,6 +41,7 @@ test {
     useJUnitPlatform()
 }
 
+// TODO: still needed?
 task fatJar(type: Jar) {
     baseName = project.name + '-all'
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
@@ -61,102 +60,50 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
     from javadoc.destinationDir
 }
 
-artifacts {
-    archives sourcesJar
-    archives javadocJar
-}
-
-def githubRepoUrl = "https://github.com/edigonzales/ilivalidator-custom-functions"
-def pomConfig = {
-    licenses {
-        license {
-            name "MIT License"
-            url "https://github.com/edigonzales/ilivalidator-custom-functions/blob/master/LICENSE"
-        }
-    }
-    developers {
-        developer {
-            id "edigonzales"
-            name "Stefan Ziegler"
-            email "stefan.ziegler@bd.so.ch"
-        }
-    }
-
-    scm {
-        url githubRepoUrl
-    }
-}
-
 publishing {
     publications {
-        mavenPublication(MavenPublication) {
+        mavenJava(MavenPublication) {
             from components.java
-            artifact sourcesJar {
-                classifier "sources"
-            }
-            artifact javadocJar {
-                classifier "javadoc"
-            }
-            groupId project.group
-            artifactId 'ilivalidator-custom-functions'
-            version project.version
-            pom.withXml {
-                def root = asNode()
-                root.appendNode('description', 'Custom functions for ilivalidator')
-                root.appendNode('name', 'ilivalidator-custom-functions')
-                root.appendNode('url', githubRepoUrl)
-                root.children().last() + pomConfig
+            artifact sourcesJar
+            artifact javadocJar
+
+            pom {
+                name = "ilivalidator-custom-functions"
+                url = "https://github.com/sogis/ilivalidator-custom-functions"
+                description = "ilivalidator-custom-functions"
+                scm {
+                    connection = "scm:git:https@github.com/sogis/ilivalidator-custom-functions"
+                    developerConnection = "scm:git:https@github.com/sogis/ilivalidator-custom-functions"
+                    url = "https://github.com/sogis/ilivalidator-custom-functions"
+                }
+                licenses {
+                    license {
+                        name = "MIT"
+                        url = "https://github.com/sogis/ilivalidator-custom-functions/blob/master/LICENSE"
+                    }
+                }
+                developers {
+                    developer {
+                        id = "edigonzales"
+                        name = "Stefan Ziegler"
+                    }
+                }
             }
         }
     }
 }
 
-bintray {
-    user = System.env.bintrayUser
-    key = System.env.bintrayKey
-    publications = ['mavenPublication']
-    publish = true
-    
-    pkg {
-        repo = 'ilivalidator-custom-functions'
-        name = 'ilivalidator-custom-functions'
-        userOrg = 'sogis'
-        licenses = ['MIT']
-        labels = ['interlis', 'ilivalidator', 'validation']        
-        vcsUrl = githubRepoUrl
-        version {
-            name = project.version
-            desc = project.version
-            released  = new Date()
-        }
-    }
+signing {
+    sign publishing.publications.mavenJava
 }
 
-
-
-/*
-publishing {
+nexusPublishing {
     repositories {
-        maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/edigonzales/ilivalidator-custom-functions")
-            credentials {
-                username = "edigonzales"//project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-                password = project.findProperty("gpr.key") ?: System.getenv("PASSWORD")
-            }
-        }
-    }
-    publications {
-        gpr(MavenPublication) {
-            from(components.java)
-            artifact sourcesJar {
-                classifier "sources"
-            }
-            artifact javadocJar {
-                classifier "javadoc"
-            }
+        sonatype { 
+            nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
+            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
+            username = findProperty("ossrhUsername") ?: System.getenv("OSSRH_USERNAME")
+            password = findProperty("ossrhPassword") ?: System.getenv("OSSRH_PASSWORD")
         }
     }
 }
-*/
-
