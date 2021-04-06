@@ -75,7 +75,7 @@ public class IsValidDocumentsCycleIoxPluginTest {
         Iom_jObject iomObjA_3=new Iom_jObject(ILI_CLASSA, OBJ_OID3);
         iomObjA_3.setattrvalue("TextImWeb", "doc_3.pdf");
         iomObjA_3.setattrvalue("Titel", "RRB");     
-        
+                
         Iom_jObject o1Ref=new Iom_jObject("REF", null);
         o1Ref.setobjectrefoid(OBJ_OID1);
         Iom_jObject o2Ref=new Iom_jObject("REF", null);

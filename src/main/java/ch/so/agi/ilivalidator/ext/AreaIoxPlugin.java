@@ -35,6 +35,9 @@ public class AreaIoxPlugin implements InterlisFunction {
             return Value.createSkipEvaluation();
         }
 
+        // TODO:
+        // Ich denke, das ist nicht korrekt. Es wird eine Menge von Objekte einer Klasse übergeben.
+        // Ich verwende aber nur das erste?!
         IomObject xtfGeom = (IomObject) actualArguments[0].getComplexObjects().toArray()[0];
         String currentObjectTag = mainObj.getobjecttag();
         String geomType = GeometryUtils.getGeometryType(xtfGeom, mainObj, tag2class, td);
