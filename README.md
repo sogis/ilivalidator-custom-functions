@@ -31,6 +31,7 @@ Für GRETL muss zum jetzigen Zeitpunkt ein anderer Approach (aka Workaround) gew
 
 Beispiel:
 
+```
 task validateFile(type: IliValidator) {
     description = "Validiert die Transferdatei mit zusätzlichen Checks."
     dataFiles = ["ch.so.sk.gesetze.xtf"]
@@ -38,6 +39,7 @@ task validateFile(type: IliValidator) {
     allObjectsAccessible = false
     configFile = "validateData.toml"
 }
+```
 
 Die Jar-Datei mit den Java-Klassen ist ins GRETL-Runtime-Image gebrannt und muss dementsprechend neu gebuildet werden, falls sich die etwas ändert. Der Pluginsordner ist nicht änderbar: `/home/gradle/plugins/`. Siehe [Dockerfile](https://github.com/sogis/gretl/blob/master/runtimeImage/gretl/Dockerfile).
 
