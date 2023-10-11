@@ -1,0 +1,26 @@
+INTERLIS 2.3;
+CONTRACTED MODEL Testmodel2
+  AT "mailto:stefan.ziegler@bd.so.ch" VERSION "2023-10-11" =
+  IMPORTS SO_FunctionsExt;
+      
+    TOPIC TopicA =
+        DOMAIN
+            Lkoord = COORD 0.000 .. 850000.000 [INTERLIS.m],
+                           0.000 .. 310000.000 [INTERLIS.m],
+                     ROTATION 2 -> 1;
+
+        CLASS ClassB =
+            attr1 : TEXT;
+            attr2 : 0..10;
+        END ClassB;
+        
+        CLASS ClassC = 
+            attr3 : TEXT;
+            !!@ name = elementCountCheck
+            !!@ ilivalid.msg = "Es gibt nicht die korrekte Anzahl Elemente."                        
+            MANDATORY CONSTRAINT INTERLIS.objectCount(SO_FunctionsExt.getObjectsOfAnyClass("Testmodel2.TopicA.ClassB")) == 2;            
+        END ClassC;
+                
+    END TopicA;
+    
+END Testmodel2.
