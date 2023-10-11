@@ -12,14 +12,16 @@ CONTRACTED MODEL SO_FunctionsExt
     !!@ nicht existiert.";
     !!@ fn.since = "2019-01-27";
     FUNCTION isHttpResource (url: TEXT; prefix: TEXT): BOOLEAN;
-    
+
+    !!@ fn.deprecated = "Use GeoW_FunctionsExt.GetArea"    
     !!@ fn.description = "Ermittelt die Fläche einer polygonalen Geometrie.";
     !!@ fn.param = "geometry Geometrieattribut.";
     !!@ fn.return = "Fläche der Geometrie";
     !!@ fn.since = "2019-12-04";
     !!@ fn.dependencies = "ili2db";
     FUNCTION area (geometry: OBJECTS OF ANYCLASS): NUMERIC;
-    
+
+    !!@ fn.deprecated = "Use GeoW_FunctionsExt.GetLength"        
     !!@ fn.description = "Ermittelt die Länge einer Linien-Geometrie";
     !!@ fn.param = "geometry Geometrieattribut.";
     !!@ fn.return = "Länge der Geometrie";
