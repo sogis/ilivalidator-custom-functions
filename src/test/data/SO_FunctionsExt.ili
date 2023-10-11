@@ -1,14 +1,11 @@
 INTERLIS 2.3;
 CONTRACTED MODEL SO_FunctionsExt
-  AT "mailto:stefan.ziegler@bd.so.ch" VERSION "2019-12-04" =
-    
-    /**
-    * Allgemeine Funktionen
-    */
+  AT "mailto:stefan.ziegler@bd.so.ch" VERSION "2023-10-10" =
     
     !!@ fn.description = "Prüft mittels Status-Code, ob eine HTTP-Ressource vorhanden ist.
     !!@ Falls der Status-Code grösser gleich 200 und kleiner gleich 399 sein,
-    !!@ ist der Rückgabewert der Funktion true.";
+    !!@ ist der Rückgabewert der Funktion true. Es wird zuerst ein HEAD-Request gemacht. 
+    !!@ Schlägt dieser fehl, wird ein GET-Request gemacht.";
     !!@ fn.param = "url Die URL der zu prüfenden HTTP-Ressource.";
     !!@ fn.param = "prefix Beliebiger URL-Prefix.";
     !!@ fn.return = "True, falls die Ressource existiert. False, falls die Ressource
@@ -16,18 +13,6 @@ CONTRACTED MODEL SO_FunctionsExt
     !!@ fn.since = "2019-01-27";
     FUNCTION isHttpResource (url: TEXT; prefix: TEXT): BOOLEAN;
     
-    !!@ fn.description = "Prüft mittels Status-Code, ob eine HTTP-Ressource vorhanden ist.
-    !!@ Falls der Status-Code grösser gleich 200 und kleiner gleich 399 sein,
-    !!@ ist der Rückgabewert der Funktion true.";
-    !!@ fn.param = "Object Attribut mit der zu prüfenden OEREB-MultilingualUrl.";
-    !!@ fn.return = "True, falls die Ressource existiert. False, falls die Ressource
-    !!@ nicht existiert.";
-    !!@ fn.since = "2020-06-05";
-    FUNCTION isHttpResourceFromOerebMultilingualUri (Object: ANYSTRUCTURE): BOOLEAN;
-    
-    /**
-    * Geometrie-Funktionen
-    */
     !!@ fn.description = "Ermittelt die Fläche einer polygonalen Geometrie.";
     !!@ fn.param = "geometry Geometrieattribut.";
     !!@ fn.return = "Fläche der Geometrie";
@@ -55,9 +40,6 @@ CONTRACTED MODEL SO_FunctionsExt
     !!@ fn.since = "2021-03-19";
     FUNCTION tooFewPointsPolyline (geometry: OBJECTS OF ANYCLASS): BOOLEAN;
     
-    /**
-    * OEREB-Kataster (und kompatible Modelle)
-    */
     !!@ fn.description = "Prüft bei einer Klasse, ob die Assoziationen auf sich
     !!@ selber korrekt sind und keine Verweise auf das gleiche Objekt,
     !!@ keine identischen Verweise und keine Endlosschleifen vorhanden sind.
@@ -67,6 +49,5 @@ CONTRACTED MODEL SO_FunctionsExt
     !!@ gefunden werden.";
     !!@ fn.since = "2019-01-27";
     FUNCTION isValidDocumentsCycle (Objects: OBJECTS OF ANYCLASS): BOOLEAN;
-    
-    
+   
 END SO_FunctionsExt.
