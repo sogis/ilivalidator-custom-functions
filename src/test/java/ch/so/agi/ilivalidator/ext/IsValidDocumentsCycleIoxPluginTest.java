@@ -249,7 +249,7 @@ public class IsValidDocumentsCycleIoxPluginTest {
         validator.validate(new EndTransferEvent());
         
         assertTrue(logger.getErrs().size()==1);
-        assertTrue(logger.getErrs().get(0).getEventMsg().equals("OID o2:o3 of object OEREB.Vorschriften.HinweisWeitereDokumente already exists in ASSOCIATION OEREB.Vorschriften.HinweisWeitereDokumente."));        
+        assertTrue(logger.getErrs().get(0).getEventMsg().equals("OID OEREB.Vorschriften.HinweisWeitereDokumente:o2:o3 of object OEREB.Vorschriften.HinweisWeitereDokumente already exists in OEREB.Vorschriften.HinweisWeitereDokumente."));        
     }
     
     @Test

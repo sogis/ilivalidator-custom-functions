@@ -16,6 +16,7 @@ import ch.interlis.ili2c.config.FileEntryKind;
 import ch.interlis.ili2c.metamodel.TransferDescription;
 import ch.interlis.iom.IomObject;
 import ch.interlis.iom_j.Iom_jObject;
+import ch.interlis.iox.IoxLogEvent;
 import ch.interlis.iox_j.EndBasketEvent;
 import ch.interlis.iox_j.EndTransferEvent;
 import ch.interlis.iox_j.ObjectEvent;
@@ -70,8 +71,8 @@ public class TooFewPointsPolylineIoxPluginTest {
         validator.validate(new ObjectEvent(objStraights));
         validator.validate(new EndBasketEvent());
         validator.validate(new EndTransferEvent());
-
-        assertTrue(logger.getErrs().size()==1);
+        
+        assertTrue(logger.getErrs().size()==2);
     }
 
     @Test

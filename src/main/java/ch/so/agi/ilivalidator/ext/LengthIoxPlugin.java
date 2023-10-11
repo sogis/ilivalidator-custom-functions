@@ -17,6 +17,7 @@ import ch.interlis.iox_j.validator.InterlisFunction;
 import ch.interlis.iox_j.validator.ObjectPool;
 import ch.interlis.iox_j.validator.Value;
 
+@Deprecated
 public class LengthIoxPlugin implements InterlisFunction {
 
     public static final double strokeP = 0.002;

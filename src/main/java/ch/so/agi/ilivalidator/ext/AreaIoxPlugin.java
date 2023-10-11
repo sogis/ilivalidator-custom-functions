@@ -18,6 +18,7 @@ import ch.interlis.iox_j.validator.ObjectPool;
 import ch.interlis.iox_j.validator.Value;
 
 // For the geometry handling see: https://github.com/AgenciaImplementacion/iliValidator_custom_plugins/blob/master/src/main/java/co/interlis/topology/ContainsIoxPlugin.java
+@Deprecated
 public class AreaIoxPlugin implements InterlisFunction {    
     
     public static final double strokeP = 0.002;
@@ -25,7 +26,7 @@ public class AreaIoxPlugin implements InterlisFunction {
     private LogEventFactory logger = null;
     private HashMap tag2class = null;
     private TransferDescription td = null;
-
+    
     @Override
     public Value evaluate(String validationKind, String usageScope, IomObject mainObj, Value[] actualArguments) {
         if (actualArguments[0].skipEvaluation()) {
@@ -88,6 +89,6 @@ public class AreaIoxPlugin implements InterlisFunction {
         this.logger = logEventFactory;
         this.logger.setValidationConfig(validationConfig);
         this.tag2class = ch.interlis.iom_j.itf.ModelUtilities.getTagMap(td);
-        this.td = td;        
+        this.td = td;                
     }  
 }
